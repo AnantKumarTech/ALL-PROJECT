@@ -21,7 +21,7 @@ movieform.addEventListener("submit", (e) => {
 
 async function searchMovie(query){
     inserting.innerHTML="Searching Movie...";
-    let respone=await fetch(`https://www.omdbapi.com/?apikey=b6496e03&s=${query}`);
+    let respone=await fetch(`https://www.omdbapi.com/?apikey=b6496e03&s=${encodeURIComponent(query)}`);
     let data= await respone.json();
     console.log(data);
     
