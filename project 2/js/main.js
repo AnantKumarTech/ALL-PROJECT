@@ -308,7 +308,30 @@ wishlist.addEventListener("click",(e)=>{
 else{
   setItem("wishlist",[data]);
 }
-  
+wishlishcot();
+console.log(wishlistItem);
+})
+const addToCartBtn = document.querySelector("#add-to-cart-btn");
+addToCartBtn.addEventListener("click",(e)=>{
+  e.preventDefault();
+  const wishlistItem = getItem("aadTocart");
+  if(wishlistItem.length){
+    const exist=wishlistItem.some((value)=>{
+      return (value.id===data.id)
+
+      
+    })
+    if(!exist){
+      setItem("aadTocart",[data,...wishlistItem]);
+    }
+  }
+
+
+else{
+  setItem("aadTocart",[data]);
+}
+
+cartCot();
 console.log(wishlistItem);
 
 })
@@ -323,9 +346,8 @@ const wishlistContainer = document.querySelector("#wishlist-container");
 if (!wishlistContainer) {
   return;
 }
-const wishlistCount = document.querySelector("#wishlist-count");
-wishlistCount.textContent = `${getItem("wishlist").length}`; 
 
+ wishlistContainer.innerHTML="";
 
 if (getItem("wishlist").length == 0) {
   wishlistContainer.innerHTML = `
@@ -342,6 +364,7 @@ if (getItem("wishlist").length == 0) {
         </a>
       </div>
   `;
+  return;
 }
 
   getItem("wishlist").forEach((value) => {
@@ -354,8 +377,8 @@ if (getItem("wishlist").length == 0) {
           <div class="flex items-center gap-4 w-full sm:w-auto flex-1 min-w-0">
             <div class="w-16 h-16 sm:w-20 sm:h-20 bg-white border border-slate-200 rounded p-1.5 flex items-center justify-center shrink-0">
               <img 
-                src="https://cdn.dummyjson.com/product-images/mens-watches/rolex-submariner-watch/thumbnail.webp" 
-                alt="Rolex Submariner Watch" 
+                src=${value.thumbnail} 
+                alt=${value.title}
                 class="max-h-full max-w-full object-contain"
               >
             </div>
@@ -373,6 +396,7 @@ if (getItem("wishlist").length == 0) {
           <div class="flex items-center gap-3 w-full sm:w-auto shrink-0 justify-end">
             <button 
               type="button" 
+               data-id=${value.id}
               class="wishlist-add-cart-btn inline-flex items-center justify-center gap-1.5 bg-teal-700 hover:bg-teal-800 text-white text-sm font-medium py-2 px-4 rounded transition shadow-sm"
             >
               <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -382,6 +406,7 @@ if (getItem("wishlist").length == 0) {
             </button>
             <button 
               type="button" 
+               data-id=${value.id}
               class="wishlist-remove-btn inline-flex items-center justify-center gap-1.5 text-slate-500 hover:text-red-600 border border-slate-300 hover:border-red-300 text-sm font-medium py-2 px-3 rounded transition"
               title="Remove from Wishlist"
             >
@@ -394,13 +419,136 @@ if (getItem("wishlist").length == 0) {
         </div>
     `;
     wishlistContainer.append(div);
+
+    wishlistContainer.addEventListener("click",(e)=>{
+      e.preventDefault();
+    const revmove = e.target.closest(".wishlist-remove-btn");
+    if(revmove){
+      const removeProductId = Number(revmove.dataset.id);
+      const filterProducts = getItem("wishlist").filter(
+        (value) => value.id !== removeProductId,
+      );
+      setItem("wishlist", filterProducts);
+      wishlishcot();
+      wishlistsRender();
+    }
+    })
+
+    
   });
   }
 
 
+
+  function CARTRender() {
+    const cartContainer = document.querySelector("#cart-container");
+    if (!cartContainer) {
+      return;
+    }
+    
+
+    if (getItem("wishlist").length == 0) {
+      cartContainer.innerHTML = `
+  <div class="bg-white border border-slate-200 rounded-lg p-12 text-center max-w-md mx-auto my-8">
+        <div class="w-16 h-16 mx-auto mb-4 text-slate-300 flex items-center justify-center">
+          <svg class="w-12 h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>
+          </svg>
+        </div>
+        <h2 class="text-xl font-semibold text-slate-800 mb-2">Your wishlist is empty</h2>
+        <p class="text-slate-500 text-sm mb-6">Looks like you haven't saved any products to your wishlist yet.</p>
+        <a href="index.html" class="inline-flex items-center justify-center bg-teal-700 hover:bg-teal-800 text-white font-medium px-6 py-2.5 rounded-md transition text-sm">
+          Start Shopping
+        </a>
+      </div>
+  `;
+  return;
+    }
+
+    getItem("aadTocart").forEach((value) => {
+      const div = document.createElement("div");
+      div.className =
+        "bg-white border  border-slate-200 rounded-lg divide-y divide-slate-200 overflow-hidden shadow-sm";
+      div.innerHTML = `
+
+        <div class="p-4 sm:p-6 flex flex-col sm:flex-row items-center gap-4 sm:gap-6 justify-between">
+          <div class="flex items-center gap-4 w-full sm:w-auto flex-1 min-w-0">
+            <div class="w-16 h-16 sm:w-20 sm:h-20 bg-white border border-slate-200 rounded p-1.5 flex items-center justify-center shrink-0">
+              <img 
+                src=${value.thumbnail} 
+                alt=${value.title}
+                class="max-h-full max-w-full object-contain"
+              >
+            </div>
+            <div class="min-w-0 flex-1">
+              <a 
+                href="product-details.html" 
+                class="text-sm font-semibold text-slate-900 hover:text-teal-700 line-clamp-2 transition" 
+                title="Rolex Submariner Watch"
+              >
+                Rolex Submariner Watch
+              </a>
+              <p class="text-sm font-bold text-slate-900 mt-1">₹13999.99</p>
+            </div>
+          </div>
+          <div class="flex items-center gap-3 w-full sm:w-auto shrink-0 justify-end">
+            <button 
+              type="button" 
+               data-id=${value.id}
+              class="wishlist-add-cart-btn inline-flex items-center justify-center gap-1.5 bg-teal-700 hover:bg-teal-800 text-white text-sm font-medium py-2 px-4 rounded transition shadow-sm"
+            >
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path>
+              </svg>
+              <span>Add to Cart</span>
+            </button>
+            <button 
+              type="button" 
+               data-id=${value.id}
+              class="wishlist-remove-btn inline-flex items-center justify-center gap-1.5 text-slate-500 hover:text-red-600 border border-slate-300 hover:border-red-300 text-sm font-medium py-2 px-3 rounded transition"
+              title="Remove from Wishlist"
+            >
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+              </svg>
+              <span>Remove from Wishlist</span>
+            </button>
+          </div>
+        </div>
+    `;
+      cartContainer.append(div);
+    });
+  }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+function wishlishcot(){
 const wishlistCount = document.querySelector("#wishlist-count");
-wishlistCount.textContent = `${getItem("wishlist").length}`; 
-
-
+wishlistCount.textContent = `${getItem("wishlist").length}`; }
+function cartCot(){
+const cartCount = document.querySelector("#cart-count");
+cartCount.textContent = `${getItem("aadTocart").length}`; }
+wishlishcot();
+cartCot();
 loadProductPage();
 wishlistsRender();
