@@ -15,10 +15,17 @@ This repository contains my web development projects.
 
 ---
 
-## 👨‍💻 Developer
+### Project 5: EventSphere – Frontend
+
+- **Technology:** React.js, JavaScript, Tailwind CSS
+- **Description:** An event website frontend built using React.js and Tailwind CSS.
+- **GitHub Repository:** [EventSphere-Frontend](https://github.com/AnantKumarTech/EventSphere-Frontend)
+
+---
+
+## Developer
 
 **Anant Kumar**
 
 - GitHub: [AnantKumarTech](https://github.com/AnantKumarTech)
-
-⭐ More projects coming soon!
+ More projects coming soon!
